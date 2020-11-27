@@ -34,26 +34,25 @@ public class AdapterListing extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_test_layout, parent, false);
         final ImageViewHolder holder = new ImageViewHolder(view);
-        final View shape = holder.imageView;
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+        final ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
+        int list = listModals[position];
+        imageViewHolder.imageView.setImageResource(list);
+        final View shape = imageViewHolder.imageView;
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                final int item = listModals[holder.getAdapterPosition()];
+                final int item = listModals[position];
                 final DragData state = new DragData(item, shape.getWidth(), shape.getHeight());
                 final View.DragShadowBuilder shadow = new View.DragShadowBuilder(shape);
                 ViewCompat.startDragAndDrop(shape, null, shadow, state, 0);
                 return true;
             }
         });
-
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
-        int list = listModals[position];
-        imageViewHolder.imageView.setImageResource(list);
 
     }
 
